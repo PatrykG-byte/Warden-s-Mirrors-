@@ -1,49 +1,20 @@
 {
   "meta": {
     "schema_version": "1.0",
-    "generated_at": "2026-01-21T00:00:00Z",
     "notes": "Synthetic sample. No production content."
   },
-  "catalog": {
-    "flags": {
-      "FLAG_EXAMPLE_SEEN": {
-        "type": "bool",
-        "default": false,
-        "description": "Example of a narrative/logic flag."
-      },
-      "FLAG_USED_ITEM": {
-        "type": "bool",
-        "default": false,
-        "description": "Tracks whether an item interaction occurred."
-      }
-    },
-    "items": {
-      "ITEM_SAMPLE": {
-        "type": "int",
-        "default": 0,
-        "min": 0,
-        "max": 99,
-        "stackable": true,
-        "description": "Example stackable item."
-      },
-      "ITEM_TOKEN": {
-        "type": "int",
-        "default": 0,
-        "min": 0,
-        "max": 10,
-        "stackable": true,
-        "description": "Gate token used for simple constraints."
-      }
-    }
+  "definitions": {
+    "flags": [
+      { "id": "FLAG_EXAMPLE_SEEN", "type": "bool", "default": false, "description": "Example flag." },
+      { "id": "FLAG_USED_ITEM", "type": "bool", "default": false, "description": "Item interaction happened." }
+    ],
+    "items": [
+      { "id": "ITEM_SAMPLE", "type": "int", "default": 0, "min": 0, "max": 99, "stackable": true },
+      { "id": "ITEM_TOKEN", "type": "int", "default": 0, "min": 0, "max": 10, "stackable": true }
+    ]
   },
-  "state": {
-    "flags": {
-      "FLAG_EXAMPLE_SEEN": false,
-      "FLAG_USED_ITEM": false
-    },
-    "items": {
-      "ITEM_SAMPLE": 0,
-      "ITEM_TOKEN": 2
-    }
+  "snapshot": {
+    "flags": { "FLAG_EXAMPLE_SEEN": false, "FLAG_USED_ITEM": false },
+    "items": { "ITEM_SAMPLE": 0, "ITEM_TOKEN": 2 }
   }
 }
