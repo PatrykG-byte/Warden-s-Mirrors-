@@ -1,1 +1,55 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "notes": "Synthetic sample. Demonstrates rule evaluation and deterministic effects."
+  },
+  "engine": {
+    "mode": "all_matching",
+    "default_priority": 100,
+    "clamp_sanity": { "min": 0, "max": 100 }
+  },
+  "events": [
+    "SANITY_BAND_CHANGED",
+    "SANITY_THRESHOLD_WARNING"
+  ],
+  "rules": [
+    {
+      "id": "R001_LOW_SANITY_WARNING",
+      "priority": 10,
+      "when": {
+        "all": [
+          { "sanity_lte": 49 },
+          { "once_per_room": true }
+        ]
+      },
+      "then": {
+        "emit": "SANITY_THRESHOLD_WARNING"
+      }
+    },
+    {
+      "id": "R010_REWARD_IF_FLAG_SET",
+      "priority": 50,
+      "when": {
+        "all": [
+          { "flag_true": "FLAG_EXAMPLE_SEEN" }
+        ]
+      },
+      "then": {
+        "sanity_delta": +1
+      }
+    },
+    {
+      "id": "R020_PENALTY_IF_MISSING_ITEM",
+      "priority": 60,
+      "when": {
+        "all": [
+          { "item_lte": { "id": "ITEM_SAMPLE", "value": 0 } }
+        ]
+      },
+      "then": {
+        "sanity_delta": -1
+      }
+    }
+  ]
+}
 
