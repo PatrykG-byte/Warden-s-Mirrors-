@@ -1,0 +1,47 @@
+# Role: Deterministic text mutation driven by sanity (UI feedback + atmosphere).
+# Inputs: Original text (String) and current sanity (0–100).
+# Outputs: Mutated text (String) that preserves readability while signaling instability.
+# Key invariants: For sanity >= 70, mutation is disabled (returns original text).
+#                 Mutation is deterministic (no RNG); same input yields same output.
+# Dependencies: Pure GDScript; used by RoomController before passing text to DialogueView.
+# Redactions/TODO: Production includes richer glyph maps and per-language rules; removed here.
+# Spoiler policy: Text content is placeholder/synthetic; mutator is content-agnostic.
+# Performance: O(n) per string; safe for short UI lines.
+# Failure behavior: Empty input returns empty output; never returns null.
+# Integration: Call `mutate_text_for_sanity(text, sanity)` from rendering pipeline.
+# Testing note: `_corrode` uses `hash()` to stay deterministic across a session.
+
+extends Node
+class_name TextMutator
+
+static func mutate_text_for_sanity(text: String, sanity: int) -> String:
+	if text == "":
+		return ""
+	if sanity >= 70:
+		return text
+	var intensity := 1
+	if sanity < 50:
+		intensity = 2
+	return _corrode(text, intensity)
+
+static func _corrode(t: String, level: int) -> String:
+	var map := {
+		"a": "å", "e": "ë", "i": "ï", "o": "ø", "u": "û",
+		"A": "Å", "E": "Ë", "I": "Ï", "O": "Ø", "U": "Û"
+	}
+	var h := hash(t) & 0x7fffffff
+	var chars := t.split("")
+	var k := 25
+	if level == 2:
+		k = 12
+	for i in range(chars.size()):
+		var gate := i + (h % 17) + level * 3
+		if (gate % k) == 0:
+			var c := chars[i]
+			if c in map:
+				chars[i] = map[c]
+			elif c.is_valid_int():
+				chars[i] = "|"
+			elif c == " " and level == 2:
+				chars[i] = "  "
+	return "".join(chars)
