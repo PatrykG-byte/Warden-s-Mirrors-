@@ -1,1 +1,88 @@
+{
+  "locations": [
+    {
+      "id": "room_alpha",
+      "entry_text_by_sanity": {
+        "90-100": "TEXT_PLACEHOLDER: room_alpha clean entry.",
+        "70-89": "TEXT_PLACEHOLDER: room_alpha mild entry.",
+        "50-69": "TEXT_PLACEHOLDER: room_alpha unstable entry.",
+        "30-49": "TEXT_PLACEHOLDER: room_alpha broken entry.",
+        "0-29": "TEXT_PLACEHOLDER: room_alpha collapse entry."
+      },
+      "ambient_by_sanity": {
+        "90-100": ["TEXT_PLACEHOLDER: ambient clean."],
+        "70-89": ["TEXT_PLACEHOLDER: ambient mild."],
+        "50-69": ["TEXT_PLACEHOLDER: ambient unstable."],
+        "30-49": ["TEXT_PLACEHOLDER: ambient broken."],
+        "0-29": ["TEXT_PLACEHOLDER: ambient collapse."]
+      },
+      "sanity_delta": 0,
+      "actions": [
+        {
+          "id": "inspect_placeholder",
+          "label_preview": "Inspect (placeholder)",
+          "result_text": "TEXT_PLACEHOLDER: inspect result text.",
+          "costs": { "sanity": 0, "items": {} },
+          "effects": { "goto": null, "items_add": {}, "flags": ["FLAG_EXAMPLE_SEEN"] },
+          "sanity_constraints": "any",
+          "visibility_rules": []
+        },
+        {
+          "id": "go_to_corridor",
+          "label_preview": "Go to corridor",
+          "result_text": "TEXT_PLACEHOLDER: transition result text.",
+          "costs": { "sanity": 1, "items": {} },
+          "effects": { "goto": "corridor_01", "items_add": {}, "flags": [] },
+          "sanity_constraints": ">=0",
+          "visibility_rules": []
+        }
+      ]
+    },
+    {
+      "id": "corridor_01",
+      "entry_text_by_sanity": {
+        "90-100": "TEXT_PLACEHOLDER: corridor clean.",
+        "70-89": "TEXT_PLACEHOLDER: corridor mild.",
+        "50-69": "TEXT_PLACEHOLDER: corridor unstable."
+      },
+      "ambient_by_sanity": {
+        "90-100": ["TEXT_PLACEHOLDER: corridor ambient clean."]
+      },
+      "actions": [
+        {
+          "id": "to_room_beta",
+          "label_preview": "Continue",
+          "result_text": "",
+          "costs": { "sanity": 0, "items": {} },
+          "effects": { "goto": "room_beta", "items_add": { "ITEM_SAMPLE": 1 }, "flags": [] },
+          "sanity_constraints": "any",
+          "visibility_rules": []
+        }
+      ]
+    },
+    {
+      "id": "room_beta",
+      "entry_text_by_sanity": {
+        "90-100": "TEXT_PLACEHOLDER: room_beta clean entry.",
+        "50-69": "TEXT_PLACEHOLDER: room_beta unstable entry."
+      },
+      "ambient_by_sanity": {},
+      "actions": [
+        {
+          "id": "consume_item",
+          "label_preview": "Use item (sample)",
+          "result_text": "TEXT_PLACEHOLDER: used item.",
+          "costs": { "sanity": 0, "items": { "ITEM_SAMPLE": 1 } },
+          "effects": { "goto": null, "items_add": {}, "flags": ["FLAG_USED_ITEM"] },
+          "sanity_constraints": "any",
+          "visibility_rules": [
+            { "item": "ITEM_SAMPLE", "op": ">=", "value": 1 }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
 
